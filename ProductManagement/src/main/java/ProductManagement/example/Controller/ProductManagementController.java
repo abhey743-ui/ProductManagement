@@ -1,5 +1,6 @@
 package ProductManagement.example.Controller;
 import ProductManagement.example.ProductManagementDto.ProductInfoAddDto;
+import ProductManagement.example.ProductManagementDto.ProductUpdateRequestDto;
 import ProductManagement.example.Service.ProductManagementService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,11 @@ public class ProductManagementController {
                return HttpStatus.OK;
     }
 
+    @PostMapping("/update/product")
+    public HttpStatus updateProduct(@RequestBody  ProductUpdateRequestDto productUpdateRequestDto){
+
+                  productManagementService.updateProduct(productUpdateRequestDto);
+                  return HttpStatus.OK;
+    }
 
 }

@@ -1,6 +1,7 @@
 package ProductManagement.example.Service;
 import ProductManagement.example.FeignClient.ProductClient;
 import ProductManagement.example.ProductManagementDto.ProductInfoAddDto;
+import ProductManagement.example.ProductManagementDto.ProductUpdateRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -20,7 +21,7 @@ public class ProductManagementService {
     public void addProduct(String data , List<MultipartFile> multipartFiles){
 
         try {
-//            String json = objectMapper.writeValueAsString(productInfoAddDto);
+
             productClient.addProduct(data, multipartFiles);
 
         } catch (Exception e) {
@@ -30,5 +31,9 @@ public class ProductManagementService {
 
     public void deleteProduct(String id){
         productClient.deleteProduct(id);
+    }
+
+    public void updateProduct(ProductUpdateRequestDto productUpdateRequestDto){
+                productClient.updateProduct(productUpdateRequestDto);
     }
 }

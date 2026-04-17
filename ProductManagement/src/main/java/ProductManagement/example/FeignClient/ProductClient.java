@@ -1,5 +1,6 @@
 package ProductManagement.example.FeignClient;
 import ProductManagement.example.ProductManagementDto.ProductInfoAddDto;
+import ProductManagement.example.ProductManagementDto.ProductUpdateRequestDto;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+
 @Component
 @FeignClient(
         name = "PRODUCTSERVICE",
@@ -26,6 +28,12 @@ public interface ProductClient {
 
     @GetMapping("/internal-service/delete/product/{id}")
     void deleteProduct(@PathVariable("id") String id);
+
+    @PostMapping(
+            value = "/internal-service/update/product",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    void updateProduct(@RequestBody ProductUpdateRequestDto productUpdateRequestDto);
 }
 
 
