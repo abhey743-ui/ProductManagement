@@ -1,33 +1,17 @@
 # Stage 1: Build the Spring Boot application
-FROM eclipse-temurin:17-jdk AS builder
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copy Maven wrapper and config
-COPY mvnw .
-COPY .mvn .mvn
-RUN chmod +x mvnw
-
-# Copy pom.xml
 COPY pom.xml .
+RUN mvn -e -X -DskipTests dependency:go-offline
 
-# Download dependencies (cached)
-RUN ./mvnw dependency:go-offline
-
-# Copy source code
 COPY src src
 
-# Build the application
-RUN ./mvnw -DskipTests package
+RUN mvn -e -X -DskipTests package
 
 # Stage 2: Run the application
-FROM eclipse-temurin:17-jre
-
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
-
-# Copy the built jar
 COPY --from=builder /app/target/*.jar app.jar
-
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
